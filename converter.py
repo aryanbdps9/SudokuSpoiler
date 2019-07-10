@@ -93,9 +93,12 @@ def form_full_pixel_array(arr):
 
 def convert(sudoku, i):
     pixel_arr=form_full_pixel_array(sudoku)
+    plt.figure(figsize=(2.52,2.52))                                 # this
     img=plt.imshow(pixel_arr, cmap="Greys")
-    filename="image"+str(i)+".png"
-    plt.savefig(filename)
+    plt.axis('off')
+    plt.subplots_adjust(left=0, right=1, top=1, bottom=0)          # with this removes the padding
+    filename="image"+str(i)+".jpeg"
+    plt.savefig(filename)                                           # now this image has size 252x252 pixels
 
 sudoku25=[[0,0,0,3,7,0,0,2,0],
           [0,9,0,0,8,5,7,0,0],
