@@ -153,7 +153,25 @@ ANN = NeuralNetwork(no_of_in_nodes = image_pixels,
 for i in range(len(train_imgs)):
     ANN.train(train_imgs[i], train_labels_one_hot[i])
 
-for i in range(20):
-    res = ANN.run(test_imgs[i])
-    print(test_labels[i], np.argmax(res), np.max(res))
+#for i in range(20):
+#    res = ANN.run(test_imgs[i])
+#    print(test_labels[i], np.argmax(res), np.max(res))
 
+def get_grayscale(image_path):
+    rgb=plt.imread(image_path)
+    gs=np.dot(rgb[...,3],[0.299,0.587,0.114])               # convert rgb to greyscale
+    gs=gs*fac+0.01                                          
+    return 1-gs;                                            # for some strange reason, gs was inverted : white ka black;
+                                                            # black ka white. hence 1-gs.
+
+def sliding_window(image_path):
+    ans=[[0]*9]*9
+    gs=get_grayscale(image_path)
+    for i in range(1,10):
+        for j in range(1,10):
+            one_digits_array=gs[(i-1)*28:i*28,(j-1)*28:j*28]
+            res=ANN.run(one_digits_array.reshape(784,1)[0]
+            ans[i][j]=np.argmax(res)
+    return ans                                                  # returns 9x9 array of identified numbers.
+                                                                # zero/blanks ka dekh lena
+  
