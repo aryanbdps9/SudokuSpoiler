@@ -170,7 +170,7 @@ def sliding_window(image_path):
     for i in range(1,10):
         for j in range(1,10):
             one_digits_array=gs[(i-1)*28:i*28,(j-1)*28:j*28]
-            res=ANN.run(one_digits_array.reshape(784,1)[0]
+            res=ANN.run(one_digits_array.reshape(784,1)[0])
             ans[i][j]=np.argmax(res)
     return ans                                                  # returns 9x9 array of identified numbers.
                                                                 # zero/blanks ka dekh lena
