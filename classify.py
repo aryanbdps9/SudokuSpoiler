@@ -1,3 +1,4 @@
+from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
 import random
@@ -161,17 +162,22 @@ def get_grayscale(image_path):
     rgb=plt.imread(image_path)
     gs=np.dot(rgb[...,3],[0.299,0.587,0.114])               # convert rgb to greyscale
     gs=gs*fac+0.01                                          
-    return 1-gs;                                            # for some strange reason, gs was inverted : white ka black;
+    return 1-gs                                            # for some strange reason, gs was inverted : white ka black;
                                                             # black ka white. hence 1-gs.
 
 def sliding_window(image_path):
+    im = Image.open("image25.jpeg")
+    img=im.convert(mode='L')
+    #img=img.resize((252,252))
+    gs = np.array(img)
     ans=[[0]*9]*9
-    gs=get_grayscale(image_path)
     for i in range(1,10):
         for j in range(1,10):
             one_digits_array=gs[(i-1)*28:i*28,(j-1)*28:j*28]
-            res=ANN.run(one_digits_array.reshape(784,1)[0])
-            ans[i][j]=np.argmax(res)
-    return ans                                                  # returns 9x9 array of identified numbers.
-                                                                # zero/blanks ka dekh lena
-  
+            abc=one_digits_array.reshape(784,1)
+            res=ANN.run(abc[:,0]*fac+0.01)
+            ans[i-1][j-1]=np.argmax(res)
+    return ans 
+
+print sliding_window("image25.jpeg") 
+#print ans                                              
