@@ -160,16 +160,16 @@ for i in range(len(train_imgs)):
 
 def get_grayscale(image_path):
     rgb=plt.imread(image_path)
-    gs=np.dot(rgb[...,3],[0.299,0.587,0.114])               # convert rgb to greyscale
+    gs=np.dot(rgb[...,:3],[0.299,0.587,0.114])               # convert rgb to greyscale
     gs=gs*fac+0.01                                          
     return 1-gs                                            # for some strange reason, gs was inverted : white ka black;
                                                             # black ka white. hence 1-gs.
 
 def sliding_window(image_path):
-    im = Image.open("image25.jpeg")
-    img=im.convert(mode='L')
+    #im = Image.open("image25.jpeg")
+    #img=im.convert(mode='L')
     #img=img.resize((252,252))
-    gs = np.array(img)
+    gs=get_grayscale(image_path)
     ans=[[0]*9]*9
     for i in range(1,10):
         for j in range(1,10):
