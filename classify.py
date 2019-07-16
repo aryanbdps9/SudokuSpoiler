@@ -164,6 +164,7 @@ def get_grayscale(image_path):
     gs=gs*fac+0.01                                          
     return 1-gs                                            # for some strange reason, gs was inverted : white ka black;
                                                             # black ka white. hence 1-gs.
+threshold=0.55
 
 def sliding_window(image_path):
     #im = Image.open("image25.jpeg")
@@ -176,7 +177,10 @@ def sliding_window(image_path):
             one_digits_array=gs[(i-1)*28:i*28,(j-1)*28:j*28]
             abc=one_digits_array.reshape(784,1)
             res=ANN.run(abc[:,0]*fac+0.01)
-            ans[i-1][j-1]=np.argmax(res)
+            if (np.max(res)<threshold):
+              ans[i-1][j-1]=0
+            else:
+              ans[i-1][j-1]=np.argmax(res)
     return ans 
 
 print sliding_window("image25.jpeg") 
